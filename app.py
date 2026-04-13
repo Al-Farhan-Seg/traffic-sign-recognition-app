@@ -34,7 +34,7 @@ def preprocess_image(image: Image.Image) -> np.ndarray:
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
-st.title("🚦 Traffic Sign Recognition")
+st.title("🚦 Traffic Sign Recognition (ML Group 3)")
 st.write(
     "Upload a traffic sign image and the trained CNN model will predict the most likely class."
 )
@@ -84,3 +84,11 @@ with st.expander("Model details"):
     st.write(
         "Note: the model already includes a Rescaling layer, so uploaded images are resized but not manually divided by 255 in the app."
     )
+
+
+st.markdown("**Developed by IUIU CS Group 3:**")
+st.markdown("""
+- Farhan Segujja (224-0631-29800)
+- Bugembe Mahad (224-0631-28843)
+- Nanyunja Rahma (224-0631-29802)
+""")
