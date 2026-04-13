@@ -34,7 +34,7 @@ def preprocess_image(image: Image.Image) -> np.ndarray:
     image_array = np.expand_dims(image_array, axis=0)
     return image_array
 
-st.title("🚦 Traffic Sign Recognition (ML Group 3)")
+st.title("🚦 Traffic Sign Recognition")
 st.write(
     "Upload a traffic sign image and the trained CNN model will predict the most likely class."
 )
