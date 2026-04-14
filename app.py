@@ -13,9 +13,14 @@ st.set_page_config(
     layout="centered"
 )
 
-MODEL_PATH = Path("traffic_sign_model.keras")
+MODEL_PATH = Path("best_traffic_sign_model.keras")
 LABELS_PATH = Path("labels.csv")
 IMG_SIZE = (224, 224)
+CLASS_NUMBERS = ['0', '1', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                 '2', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '3',
+                 '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '4', '40',
+                 '41', '42', '43', '44', '45', '46', '47', '48', '49', '5', '50', '51',
+                 '52', '53', '54', '55', '56', '57', '6', '7', '8', '9']
 
 @st.cache_resource
 def load_model():
@@ -23,9 +28,7 @@ def load_model():
 
 @st.cache_data
 def load_labels():
-    df = pd.read_csv(LABELS_PATH)
-    df = df.sort_values("ClassId").reset_index(drop=True)
-    return df
+    return pd.read_csv(LABELS_PATH)
 
 def preprocess_image(image: Image.Image) -> np.ndarray:
     image = image.convert("RGB")
@@ -58,7 +61,8 @@ if uploaded_file is not None:
             top_indices = np.argsort(predictions)[::-1][:3]
 
         predicted_index = int(top_indices[0])
-        predicted_label = labels_df.loc[labels_df["ClassId"] == predicted_index, "Name"].iloc[0]
+        predicted_class_id = int(CLASS_NUMBERS[predicted_index])
+        predicted_label = labels_df.loc[labels_df["ClassId"] == predicted_class_id, "Name"].iloc[0]
         confidence = float(predictions[predicted_index])
 
         st.success(f"Prediction: {predicted_label}")
@@ -67,7 +71,7 @@ if uploaded_file is not None:
         st.subheader("Top 3 predictions")
         top_rows = []
         for idx in top_indices:
-            class_id = int(idx)
+            class_id = int(CLASS_NUMBERS[idx])
             class_name = labels_df.loc[labels_df["ClassId"] == class_id, "Name"].iloc[0]
             top_rows.append({
                 "Class ID": class_id,
